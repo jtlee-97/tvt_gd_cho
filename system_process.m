@@ -73,21 +73,27 @@ function [histories, episode_results, final_results, master_histories] = system_
                     % case 7 % 기존 상대비교식 거리CHO
                         % not consider serving cell state, just consider triggering condition satisfy?
                         % ue_array(i) = MTD_D2_HO(ue_array(i), sat, Offset, current_time); % Distance
-                    case {4, 5, 6} % 수정한 표준기반 거리CHO
+                    case {4, 5} % 수정한 표준기반 거리CHO
                         switch option
                             case 4
                                 % this option consider serving cell state, if not closer the serving cell? target cell not change
-                                ue_array(i) = MTD_D2_HO_3gpp(ue_array(i), sat, Hys, 15000, cellRadius, current_time); % Distance
+                                ue_array(i) = MTD_D2_HO_3gpp(ue_array(i), sat, Hys, (cellISD - cellRadius), cellRadius, current_time); % Distance
                             case 5
-                                % this option consider serving cell state, if not closer the serving cell? target cell not change
-                                ue_array(i) = MTD_D2_HO_3gpp(ue_array(i), sat, Hys, (cellISD/2), cellRadius, current_time); % Distance
-                            case 6
                                 % this option consider serving cell state, if not closer the serving cell? target cell not change
                                 ue_array(i) = MTD_D2_HO_3gpp(ue_array(i), sat, Hys, cellRadius, cellRadius, current_time); % Distance
                         end
-                    case 7
-                        % proposed method
-                        ue_array(i) = MTD_DD2_HO_OID(ue_array(i), sat, Hys, cellISD - cellRadius, Thresh2, current_time); % Distance DD2
+                    case {6, 7}
+                        switch option
+                            case 6
+                            % proposed method
+                            ue_array(i) = MTD_DD2_HO_OID(ue_array(i), sat, Hys, (cellISD - cellRadius), cellRadius, current_time); % Distance DD2
+                            case 7
+                            % proposed method
+                            ue_array(i) = MTD_DD2_HO_OID(ue_array(i), sat, Hys, cellRadius, cellRadius, current_time); % Distance DD2
+                        end
+                    % case 7
+                    %     % proposed method
+                    %     ue_array(i) = MTD_DD2_HO_OID(ue_array(i), sat, Hys, (cellISD - cellRadius), cellRadius, current_time); % Distance DD2
                 end
                 ue_array(i) = ue_array(i).check_RLF(sat, current_time, T310); % T310을 1로 설정
             end

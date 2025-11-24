@@ -43,7 +43,6 @@ strategies = {
     'Strategy A', 0, 0;
     'Strategy B', 1, 0.1;
     'Strategy C', 2, 0.2;
-    % 'Strategy D', 2, 0.2;
     'Strategy D', [], [];
     'Strategy E', [], [];
     'Strategy F', [], [];
