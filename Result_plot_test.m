@@ -1,0 +1,183 @@
+% ====================================================================
+% Plotting combined subplots in one figure, including ToS variance and ToS stddev
+% ====================================================================
+
+% Initialize strategies and colors
+strategies_all = { 'Strategy A', 'Strategy B', 'Strategy C', 'Strategy D', 'Strategy E', 'Strategy F', 'Strategy G', 'Strategy H'};
+strategies_subset = {'Strategy A', 'Strategy D', 'Strategy G', 'Strategy H'};
+
+% Define strategy sets
+strategy_sets_all = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'};
+strategy_sets_subset = {'A', 'D', 'G', 'H'};
+
+colors_all = { ...
+    'k', [0.5, 0.5, 0.5], [0.8, 0.8, 0.8], ...  % BHO colors
+    [0.5, 0.25, 0], [0.6, 0.3, 0], [0.8, 0.4, 0], ...  % CHO colors
+    'b', 'r'  % DCHO and Proposed DCHO colors
+};
+colors_subset = {'k', [0.5, 0.25, 0], 'b', 'r'};
+lineStyles_all = { ...
+    ':', ':', ':', ...  % BHO line styles
+    '-.', '-.', '-.', ...  % CHO line styles
+    '-', '-'  % DCHO and Proposed DCHO line styles
+};
+lineStyles_subset = {':', '-.', '-', '-'};
+
+% Initialize variables to hold data for each strategy
+raw_sinr_data_all = cell(1, length(strategies_all));
+raw_sinr_data_subset = cell(1, length(strategies_subset));
+uho_data_subset = cell(1, length(strategies_subset));
+ho_data_subset = cell(1, length(strategies_subset));
+uho_ho_ratio_subset = cell(1, length(strategies_subset));  % UHO/HO 비율 추가
+rlf_data_all = cell(1, length(strategies_all));  % RLF 데이터 추가
+rlf_data_subset = cell(1, length(strategies_subset));  % Subset RLF 데이터 추가
+tos_data_subset = cell(1, length(strategies_subset));  % ToS 데이터 추가
+
+% Load data for each strategy (subset)
+for i = 1:length(strategies_subset)
+    data_path = fullfile('MasterResults', ['case 1','_MASTER_RESULTS_', strategies_subset{i},  '_DenseUrban', '.mat']);
+    data = load(data_path);
+    
+    if isfield(data, 'MASTER_ToS')
+        tos_data_subset{i} = data.MASTER_ToS(:);  % Treat MASTER_ToS as 1D array
+    else
+        fprintf('Warning: MASTER_ToS variable is missing from the loaded data for strategy %s.\n', strategies_subset{i});
+        tos_data_subset{i} = [];  % Empty array if MASTER_ToS is missing
+    end
+end
+
+% Plotting combined subplots in one figure
+figure;
+
+% Subplot 1: CDF plots for SINR (tt_SINR) (All Strategies)
+subplot(5, 2, 1);
+hold on;
+for i = 1:length(strategies_all)
+    if ~isempty(raw_sinr_data_all{i})  % 데이터가 존재하는지 확인
+        [cdf_sinr, x_sinr] = ecdf(raw_sinr_data_all{i});
+        plot(x_sinr, cdf_sinr, 'Color', colors_all{i}, 'LineStyle', lineStyles_all{i}, 'LineWidth', 1, 'DisplayName', strategies_all{i});
+    else
+        fprintf('No SINR data for strategy %s.\n', strategies_all{i});
+    end
+end
+hold off;
+grid on;
+xlabel('DL SINR [dB]');
+ylabel('CDF');
+legend('Location', 'southeast');
+xlim([-8 3]);  
+ylim([0 1]);
+yticks(0:0.1:1);
+
+% Subplot 2: CDF plots for UHO (Subset Strategies)
+subplot(5, 2, 2);
+hold on;
+for i = 1:length(strategies_subset)
+    [cdf_uho, x_uho] = ecdf(uho_data_subset{i});
+    plot(x_uho, cdf_uho, 'Color', colors_subset{i}, 'LineStyle', lineStyles_subset{i}, 'LineWidth', 1.5, 'DisplayName', strategies_subset{i});
+end
+hold off;
+grid on;
+xlabel('UHO');
+ylabel('CDF');
+legend('Location', 'southeast');
+yticks(0:0.1:1);
+
+% Subplot 3: CDF plots for UHO/HO ratio (Subset Strategies)
+subplot(5, 2, 3);
+hold on;
+for i = 1:length(strategies_subset)
+    [cdf_ratio, x_ratio] = ecdf(uho_ho_ratio_subset{i});
+    plot(x_ratio, cdf_ratio, 'Color', colors_subset{i}, 'LineStyle', lineStyles_subset{i}, 'LineWidth', 1.5, 'DisplayName', strategies_subset{i});
+end
+hold off;
+grid on;
+xlabel('UHO/HO Ratio');
+ylabel('CDF');
+legend('Location', 'southeast');
+yticks(0:0.1:1);
+
+% Subplot 4: CDF plots for ToS (Subset Strategies)
+subplot(5, 2, 4);
+hold on;
+for i = 1:length(strategies_subset)
+    if ~isempty(tos_data_subset{i})  % Only plot if ToS data exists
+        [cdf_tos, x_tos] = ecdf(tos_data_subset{i});
+        plot(x_tos, cdf_tos, 'Color', colors_subset{i}, 'LineStyle', lineStyles_subset{i}, 'LineWidth', 1.5, 'DisplayName', strategies_subset{i});
+    else
+        fprintf('No ToS data for strategy %s.\n', strategies_subset{i});
+    end
+end
+hold off;
+grid on;
+xlabel('ToS');
+ylabel('CDF');
+legend('Location', 'southeast');
+yticks(0:0.1:1);
+
+% Subplot 5: RLF Operations per UE per Sec (All Strategies)
+subplot(5, 2, 5);
+average_rlf_all = cellfun(@(rlf) mean(rlf) / (EPISODE), rlf_data_all);
+b = bar(average_rlf_all, 'FaceColor', [0, 0.4470, 0.7410]); % Blue bars
+set(gca, 'XTick', 1:length(strategy_sets_all), 'XTickLabel', strategy_sets_all);
+xlabel('Strategy');
+ylabel('RLF Operations');
+grid on;
+
+% Add values on top of each bar
+xtips = b.XEndPoints;
+ytips = b.YEndPoints;
+labels = string(round(b.YData, 3)); % Round to 3 decimal places
+text(xtips, ytips, labels, 'HorizontalAlignment', 'center', 'VerticalAlignment', 'bottom');
+
+% Subplot 6: Average UHO per UE (Subset Strategies)
+subplot(5, 2, 6);
+hold on;
+for i = 1:length(strategies_subset)
+    x_values = 0:100:25000;
+    plot(x_values, uho_data_subset{i}, 'Color', colors_subset{i}, 'LineStyle', lineStyles_subset{i}, 'LineWidth', 0.7, 'DisplayName', strategies_subset{i});
+end
+xlabel('Distance [m]');
+ylabel('Average UHO');
+legend('Location', 'northwest');
+grid on;
+xlim([0 25000]);
+hold off;
+
+% Subplot 7: Bar plot for Average UHO/HO Ratio (Subset Strategies)
+subplot(5, 2, 7);
+
+% Prepare data for plotting
+average_uho_ho_ratio = cellfun(@(uho, ho) mean(uho ./ (ho + eps)), uho_data_subset, ho_data_subset);
+
+% Create positions for grouped bars
+bar_width = 0.4;
+x = 1:length(strategies_subset);
+
+% Create a bar plot for Average UHO/HO Ratio on the right y-axis
+bar(x, average_uho_ho_ratio, bar_width, 'FaceColor', [0.8500, 0.3250, 0.0980]); % Orange bars
+ylabel('Average UHO/HO Ratio');
+
+% Set x-axis labels and title
+set(gca, 'XTick', x, 'XTickLabel', strategy_sets_subset);
+xlabel('Strategy');
+grid on;
+
+% Subplot 9: Line plot for ToS histogram (Subset Strategies)
+subplot(5, 2, 9);
+hold on;
+for i = 1:length(strategies_subset)
+    % Convert histogram data into line plots by using normalized histcounts
+    [counts, edges] = histcounts(tos_data_subset{i}, 'Normalization', 'probability');
+    centers = (edges(1:end-1) + edges(2:end)) / 2;  % Bin centers
+    plot(centers, counts, 'Color', colors_subset{i}, 'LineStyle', lineStyles_subset{i}, 'LineWidth', 1.5, 'DisplayName', strategies_subset{i});
+end
+hold off;
+grid on;
+xlabel('ToS');
+ylabel('Probability');
+legend('Location', 'northeast');
+yticks(0:0.1:1);
+
+% Adjust overall figure size
+set(gcf, 'Position', [100, 100, 1000, 800]);  % Adjust the figure size for a square plot
