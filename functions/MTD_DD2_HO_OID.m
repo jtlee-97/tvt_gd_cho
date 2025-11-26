@@ -32,7 +32,7 @@ function ue = MTD_DD2_HO_OID(ue, sat, Hys, Thresh1, Thresh2, current_time)
             end
             
             % Calculate distance and find valid indices within 44000 meters
-            valid_indices = find(calculate_distance(ue, sat, ue.SERV_SITE_IDX) <= 41000);  % 거리 조건을 만족하는 셀 선택
+            valid_indices = find(calculate_distance(ue, sat, ue.SERV_SITE_IDX) <= 50000);  % 거리 조건을 만족하는 셀 선택
             valid_indices(valid_indices == ue.SERV_SITE_IDX) = [];  % SERV_SITE_IDX를 제외
             
             serving_y = sat.BORE_Y(ue.SERV_SITE_IDX);

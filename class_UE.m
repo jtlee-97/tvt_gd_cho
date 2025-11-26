@@ -149,15 +149,12 @@ classdef class_UE
 
         % ENV_DIS, ENV_ANG, ENV_ELEV 배열을 업데이트하는 메서드
         function obj = update_env(obj, dis_array, ang_array, elev_array)
-            % [수정] 127 하드코딩 제거 -> 입력된 배열의 길이가 서로 같은지만 확인
-            num_cells = length(dis_array);
-            if length(ang_array) == num_cells && length(elev_array) == num_cells
+            if length(dis_array) == 127 && length(ang_array) == 127 && length(elev_array) == 127
                 obj.ENV_DIS = dis_array;
                 obj.ENV_ANG = ang_array;
                 obj.ENV_ELEV = elev_array;
             else
-                % 에러 메시지도 수정
-                error('Input arrays lengths do not match.');
+                error('Input arrays must be of length 127');
             end
         end
 
@@ -166,20 +163,23 @@ classdef class_UE
             % LOSS 계산
             FREQ = 2e9;                     % 2GHz [Frequency band]
             loss_array = GET_LOSS(FREQ, obj.ENV_DIS, obj.ENV_ELEV);
-            
-            % [수정] 127 하드코딩 제거 -> 계산된 결과 그대로 저장
-            obj.LOSS = loss_array;
-            
-            % (기존 코드의 if length == 127 체크 삭제)
+            % loss_array = GET_LOSS_riv(FREQ, obj.ENV_DIS, obj.ENV_ELEV);
+            if length(loss_array) == 127
+                obj.LOSS = loss_array;
+            else
+                error('Loss array must be of length 127');
+            end
         end
-        
+
         % AGGAIN 배열을 업데이트하는 메서드
         function obj = update_aggain(obj, maxgain)
             FREQ = 2e9;                     % 2GHz [Frequency band]
-            aggain_array = GET_AGGAIN(obj.ENV_ANG, maxgain, FREQ, 2); 
-            
-             % [수정] 127 하드코딩 제거
-            obj.AGGAIN = aggain_array;
+            aggain_array = GET_AGGAIN(obj.ENV_ANG, maxgain, FREQ, 2); % (SAT Aperture is 2)
+            if length(aggain_array) == 127
+                obj.AGGAIN = aggain_array;
+            else
+                error('Aggain array must be of length 127');
+            end
         end
 
         % ML 값을 업데이트하는 메서드

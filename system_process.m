@@ -47,16 +47,15 @@ function [histories, episode_results, final_results, master_histories] = system_
         ue_array = UPDATE_UE(sat, ue_array, true, sat_histories, idx); % true: it is initial state
 
         while jdx <= length(TIMEVECTOR)
-            % sat.BORE_Y = sat.BORE_Y + SITE_MOVE;  % Move Next Location (SAT) at 1 TIMEVECTOR
-            sat = sat.move_satellites(SITE_MOVE);
-
+            sat.BORE_Y = sat.BORE_Y + SITE_MOVE;  % Move Next Location (SAT) at 1 TIMEVECTOR
+            
             % SAT 히스토리 업데이트
             sat_histories(idx).BORE_X = [sat_histories(idx).BORE_X; sat.BORE_X];
             sat_histories(idx).BORE_Y = [sat_histories(idx).BORE_Y; sat.BORE_Y];
 
             % UE 상태 업데이트 (SERV_SITE_IDX 업데이트 포함)
             ue_array = UPDATE_UE(sat, ue_array, false, sat_histories, idx);  % UPDATE UE STATE, false: it is not initial state
-            % PD = (600000 / 3e8);  % 빛의 속도(m/s)를 기준으로 한 1-way 전파 지연 시간(0.02, 2 ms)
+            PD = (600000 / 3e8);  % 빛의 속도(m/s)를 기준으로 한 1-way 전파 지연 시간(0.02, 2 ms)
 
             % 히스토리 업데이트
             for i = 1:numel(ue_array)

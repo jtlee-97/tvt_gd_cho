@@ -35,7 +35,11 @@ end
 tiers = 6;  % 4-tier까지 확장
 run('system_parameter.m');
 [x, y] = generateHexagonalCells(cellRadius, tiers);
-% 
+
+
+
+
+
 % % % % % 각 좌표 간 거리 계산
 % index1 = 1; % 1번 셀
 % index3 = 3; % 3번 셀
@@ -50,7 +54,7 @@ run('system_parameter.m');
 % disp(['Y #10 ', num2str(index10), ': ', num2str(y(index10))]);
 % disp(['Y #16 ', num2str(index16), ': ', num2str(y(index16))]);
 % 
-% 그래프 표시 (필요시 주석 해제)
+% % 그래프 표시 (필요시 주석 해제)
 % figure;
 % hold on;
 % for i = 1:length(x)
@@ -64,6 +68,6 @@ run('system_parameter.m');
 % xlabel('X coordinate');
 % ylabel('Y coordinate');
 % grid on;
-
+% 
 % disp([x, y]);
 % disp(['Total number of cells: ', num2str(length(x))]);

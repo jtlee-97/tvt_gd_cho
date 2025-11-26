@@ -454,51 +454,54 @@ grid minor;
 savefig(fullfile(output_folder, 'results_DLSINR_box_rural_coloredBySet.fig'));
 saveas(gcf, fullfile(output_folder, 'results_DLSINR_box_rural_coloredBySet.png'));
 
-% %% AVERAGE SINR - new 바이올린 플롯으로 유력한 MAIN
-% figure('Position', [70, 70, 930, 730]);
-% hold on;
-% 
-% % 색상 정의 (위에서 만든 box_colors 사용)
-% % box_colors = box_colors(1:length(strategies_all), :);
-% 
-% % 평균/중앙값 마커 저장용
-% mean_handles = gobjects(1,1);
-% median_handles = gobjects(1,1);
-% 
-% for i = 1:length(display_names)
-%     y_data = round(sinr_data_all{1, i}, 3);
-% 
-%     % 분포 곡선
-%     [f, xi] = ksdensity(y_data);
-%     f = f / max(f) * 0.3;  % 정규화 후 너비 조절
-%     fill([i - f, fliplr(i + f)], [xi, fliplr(xi)], box_colors(i, :), ...
-%         'FaceAlpha', 0.35, 'EdgeColor', 'none');
-% 
-%     % 중앙값 (점선)
-%     median_val = median(y_data);
-%     median_handles = plot([i - 0.2, i + 0.2], [median_val, median_val], ...
-%         'k:', 'LineWidth', 2.0);  % 점선으로 표기
-% 
-%     % 평균 (빈 원)
-%     mean_val = mean(y_data);
-%     mean_handles = plot(i, mean_val, 'ko', 'MarkerSize', 7, 'LineWidth', 1.5, 'MarkerFaceColor', 'w');
-% end
-% 
-% xlim([0.5, length(display_names) + 0.5]);
-% ylim([-5.3, 0.6]);
-% xticks(1:length(display_names));
-% xticklabels(display_names);
-% ylabel('Average DL SINR [dB]', 'FontSize', 17.5);
-% set(gca, 'FontSize', 15);
-% grid on; grid minor;
-% 
-% % 범례 추가
-% legend([median_handles, mean_handles], {'Median value', 'Mean value'}, ...
-%     'Location', 'southwest', 'FontSize', 13);
-% 
-% % 저장
-% savefig(fullfile(output_folder, 'results_DLSINR_violin_median_mean_rural_legend.fig'));
-% saveas(gcf, fullfile(output_folder, 'results_DLSINR_violin_median_mean_rural_legend.png'));
+
+
+
+%% AVERAGE SINR - new 바이올린 플롯으로 유력한 MAIN
+figure('Position', [70, 70, 930, 730]);
+hold on;
+
+% 색상 정의 (위에서 만든 box_colors 사용)
+% box_colors = box_colors(1:length(strategies_all), :);
+
+% 평균/중앙값 마커 저장용
+mean_handles = gobjects(1,1);
+median_handles = gobjects(1,1);
+
+for i = 1:length(display_names)
+    y_data = round(sinr_data_all{1, i}, 3);
+
+    % 분포 곡선
+    [f, xi] = ksdensity(y_data);
+    f = f / max(f) * 0.3;  % 정규화 후 너비 조절
+    fill([i - f, fliplr(i + f)], [xi, fliplr(xi)], rural_colors(i, :), ...
+        'FaceAlpha', 0.35, 'EdgeColor', 'none');
+
+    % 중앙값 (점선)
+    median_val = median(y_data);
+    median_handles = plot([i - 0.2, i + 0.2], [median_val, median_val], ...
+        'k:', 'LineWidth', 2.0);  % 점선으로 표기
+
+    % 평균 (빈 원)
+    mean_val = mean(y_data);
+    mean_handles = plot(i, mean_val, 'ko', 'MarkerSize', 7, 'LineWidth', 1.5, 'MarkerFaceColor', 'w');
+end
+
+xlim([0.5, length(display_names) + 0.5]);
+ylim([-4.8, -0.7]);
+xticks(1:length(display_names));
+xticklabels(display_names);
+ylabel('Average DL SINR [dB]', 'FontSize', 17.5);
+set(gca, 'FontSize', 15);
+grid on; grid minor;
+
+% 범례 추가
+legend([median_handles, mean_handles], {'Median value', 'Mean value'}, ...
+    'Location', 'southwest', 'FontSize', 13);
+
+% 저장
+savefig(fullfile(output_folder, 'results_DLSINR_violin_median_mean_rural_legend.fig'));
+saveas(gcf, fullfile(output_folder, 'results_DLSINR_violin_median_mean_rural_legend.png'));
 
 % %% AVERAGE SINR - new 바이올린 플롯으로 유력한 MAIN (오류 수정됨)
 % figure('Position', [70, 70, 930, 730]);
