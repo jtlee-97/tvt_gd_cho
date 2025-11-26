@@ -14,10 +14,10 @@ expected_samples = length(TIMEVECTOR); % 예상되는 시간 스텝 개수
 % =======================================
 % 데이터 경로 관련
 cases = 'case 1';
-case_path = 'MasterResults\251123';
+case_path = 'MasterResults';
 
 % 결과 저장 폴더 설정
-output_folder = '_TVT_REV1_1123_RESULTS_FIGURE_';
+output_folder = '_TVT_REV1_1123_RESULTS_FIGURE_2511242230';
 % 폴더가 없으면 생성
 if ~exist(output_folder, 'dir')
     mkdir(output_folder);
@@ -278,7 +278,7 @@ grid on; grid minor;
 xt = get(gca, 'XTick');
 for i = 1:length(strategies_all)
     value = average_rlf_per_sec(i);
-    text(xt(i), value + 0.005, sprintf('%.2f', value), ...
+    text(xt(i), value + 0.013, sprintf('%.2f', value), ...
         'HorizontalAlignment', 'center', ...
         'FontSize', 12);
 end
@@ -356,63 +356,63 @@ saveas(gcf, fullfile(output_folder, 'compare_rlf_rural_only_coloredBySet.png'));
 % savefig(fullfile(output_folder, 'compare_hopp_per_ho_rural_only_coloredBySet.fig'));
 % saveas(gcf, fullfile(output_folder, 'compare_hopp_per_ho_rural_only_coloredBySet.png'));
 
-%% [SCI MAIN FIGURE] Combined UHO & HOPP (Rural Only, Dual Y-Axis)
-figure('Position', [180, 180, 1080, 880]);
-
-% 🌾 Rural 데이터만 추출
-uho_rural = uho_per_ho_all(:, 1);    % UHO/HO (%)
-hopp_rural = hopp_per_ho_all(:, 1);  % HOPP/HO (%)
-
-% 🎨 색상 정의 (UHO: 진한색, HOPP: 연한색)
-uho_colors = rural_colors; % 이미 사이즈 조정됨
-hopp_colors = uho_colors * 0.6 + 0.4;  % 동일한 계열의 연한 색상
-
-% 🧱 막대 폭과 간격 설정
-bar_width = 0.4;
-
-% 🎨 UHO - 왼쪽 y축
-yyaxis left;
-b1 = bar((1:length(uho_rural)) - bar_width/2, uho_rural, bar_width, 'FaceColor', 'flat');
-b1.CData = uho_colors;
-ylabel('UHO/HO ratio (%)', 'FontSize', 17.5);
-ylim([0, 16]);
-
-% 🎨 HOPP - 오른쪽 y축
-yyaxis right;
-b2 = bar((1:length(hopp_rural)) + bar_width/2, hopp_rural, bar_width, 'FaceColor', 'flat');
-b2.CData = hopp_colors;
-ylabel('HOPP/HO ratio (%)', 'FontSize', 17.5);
-ylim([0, 16]);
-
-% 🧭 공통 x축
-set(gca, 'XTick', 1:length(strategies_all), ...
-         'XTickLabel', display_names, ...
-         'FontSize', 17.5);
-xtickangle(0);
-grid on; grid minor;
-
-% ✅ 수치 표기 (UHO - 왼쪽)
-yyaxis left;
-xt = get(gca, 'XTick');
-for i = 1:length(uho_rural)
-    x = xt(i) - bar_width/2;
-    y = uho_rural(i) + 0.5;
-    text(x, y, sprintf('%d', round(uho_rural(i))), ...
-        'HorizontalAlignment', 'center', 'FontSize', 13);
-end
-
-% ✅ 수치 표기 (HOPP - 오른쪽)
-yyaxis right;
-for i = 1:length(hopp_rural)
-    x = xt(i) + bar_width/2;
-    y = hopp_rural(i) + 0.5;
-    text(x, y, sprintf('%d', round(hopp_rural(i))), ...
-        'HorizontalAlignment', 'center', 'FontSize', 13);
-end
-
-% 💾 저장
-savefig(fullfile(output_folder, 'compare_uho_hopp_per_ho_rural_combined_dualy.fig'));
-saveas(gcf, fullfile(output_folder, 'compare_uho_hopp_per_ho_rural_combined_dualy.png'));
+% %% [SCI MAIN FIGURE] Combined UHO & HOPP (Rural Only, Dual Y-Axis)
+% figure('Position', [180, 180, 1080, 880]);
+% 
+% % 🌾 Rural 데이터만 추출
+% uho_rural = uho_per_ho_all(:, 1);    % UHO/HO (%)
+% hopp_rural = hopp_per_ho_all(:, 1);  % HOPP/HO (%)
+% 
+% % 🎨 색상 정의 (UHO: 진한색, HOPP: 연한색)
+% uho_colors = rural_colors; % 이미 사이즈 조정됨
+% hopp_colors = uho_colors * 0.6 + 0.4;  % 동일한 계열의 연한 색상
+% 
+% % 🧱 막대 폭과 간격 설정
+% bar_width = 0.4;
+% 
+% % 🎨 UHO - 왼쪽 y축
+% yyaxis left;
+% b1 = bar((1:length(uho_rural)) - bar_width/2, uho_rural, bar_width, 'FaceColor', 'flat');
+% b1.CData = uho_colors;
+% ylabel('UHO/HO ratio (%)', 'FontSize', 17.5);
+% ylim([0, 16]);
+% 
+% % 🎨 HOPP - 오른쪽 y축
+% yyaxis right;
+% b2 = bar((1:length(hopp_rural)) + bar_width/2, hopp_rural, bar_width, 'FaceColor', 'flat');
+% b2.CData = hopp_colors;
+% ylabel('HOPP/HO ratio (%)', 'FontSize', 17.5);
+% ylim([0, 16]);
+% 
+% % 🧭 공통 x축
+% set(gca, 'XTick', 1:length(strategies_all), ...
+%          'XTickLabel', display_names, ...
+%          'FontSize', 17.5);
+% xtickangle(0);
+% grid on; grid minor;
+% 
+% % ✅ 수치 표기 (UHO - 왼쪽)
+% yyaxis left;
+% xt = get(gca, 'XTick');
+% for i = 1:length(uho_rural)
+%     x = xt(i) - bar_width/2;
+%     y = uho_rural(i) + 0.5;
+%     text(x, y, sprintf('%d', round(uho_rural(i))), ...
+%         'HorizontalAlignment', 'center', 'FontSize', 13);
+% end
+% 
+% % ✅ 수치 표기 (HOPP - 오른쪽)
+% yyaxis right;
+% for i = 1:length(hopp_rural)
+%     x = xt(i) + bar_width/2;
+%     y = hopp_rural(i) + 0.5;
+%     text(x, y, sprintf('%d', round(hopp_rural(i))), ...
+%         'HorizontalAlignment', 'center', 'FontSize', 13);
+% end
+% 
+% % 💾 저장
+% savefig(fullfile(output_folder, 'compare_uho_hopp_per_ho_rural_combined_dualy.fig'));
+% saveas(gcf, fullfile(output_folder, 'compare_uho_hopp_per_ho_rural_combined_dualy.png'));
 
 %% --------------------------------------------------------------------------------------------------------------------
 %% [SCI MAIN FIGURE] Average SINR (Rural Only + Set별 색상 적용)
@@ -427,14 +427,6 @@ for i = 1:length(display_names)
     group_rural = [group_rural; i * ones(length(current_data), 1)];
 end
 
-% 색상 설정
-full_box_colors = [
-    repmat([0, 0, 0.5], 3, 1);       % Set 1~4: 남색
-    repmat([0.5, 0.25, 0], 3, 1);    % Set 5~7: 갈색
-    [0.6, 0, 0]                      % Set 8: 붉은색
-];
-box_colors = full_box_colors(1:length(strategies_all), :); % 사이즈 조정
-
 % boxplot 그리기
 boxplot(sinr_data_per_strategy_rural, group_rural, 'Labels', display_names, 'Colors', 'k');
 
@@ -444,8 +436,8 @@ h = findobj(gca, 'Tag', 'Box');
 for j = 1:length(h)
     % h의 인덱스와 strategies의 인덱스 매핑 (역순 처리)
     idx = length(h) - j + 1;
-    if idx <= size(box_colors, 1)
-        patch(get(h(j), 'XData'), get(h(j), 'YData'), box_colors(idx,:), 'FaceAlpha', 0.3);
+    if idx <= size(rural_colors, 1)
+        patch(get(h(j), 'XData'), get(h(j), 'YData'), rural_colors(idx,:), 'FaceAlpha', 0.3);
     end
     % 중앙값 선을 검정색으로 진하게 설정
     h_median = findobj(gca, 'Tag', 'Median');
@@ -629,34 +621,34 @@ saveas(gcf, fullfile(output_folder, 'results_DLSINR_box_rural_coloredBySet.png')
 % savefig(fullfile(output_folder, 'results_DLSINR_distribution_strip_rural.fig'));
 % saveas(gcf, fullfile(output_folder, 'results_DLSINR_distribution_strip_rural.png'));
 
-%% SINR CDF plot
-figure('Position', [100, 100, 1000, 850]);
-hold on;
-for i = 1:length(strategies_all)
-    sinr_data = raw_sinr_data_all{1, i};
-    if ~isempty(sinr_data) && isvector(sinr_data)
-        sinr_data_rounded = round(sinr_data, 3);  % SINR 데이터 소수점 3자리 반올림
-        [cdf_sinr, x_sinr] = ecdf(sinr_data_rounded);
-        plot(x_sinr, cdf_sinr, 'Color', colors_all{i}, 'LineStyle', lineStyles_all{i}, 'LineWidth', 1.5, ...
-            'DisplayName', display_names{i});
-    else
-        warning('SINR data for strategy %s in DenseUrban is either empty or not valid.', strategies_all{i});
-    end
-end
-hold off;
-xlabel('DL SINR [dB]', 'FontSize', 17.5);
-ylabel('Cumulative distribution function', 'FontSize', 17.5);
-legend_handle = legend('Location', 'northwest');
-set(legend_handle, 'FontSize', 17.5);  % legend의 글씨 크기 설정
-xlim([-10 5]);
-ylim([0 1]);
-yticks(0:0.1:1);
-grid on;
-grid minor;
-
-% 결과를 fig와 png로 저장
-savefig(fullfile(output_folder, 'results_DLSINR_cdf.fig'));  % fig 저장
-saveas(gcf, fullfile(output_folder, 'results_DLSINR_cdf.png'));  % png 저장
+% %% SINR CDF plot
+% figure('Position', [100, 100, 1000, 850]);
+% hold on;
+% for i = 1:length(strategies_all)
+%     sinr_data = raw_sinr_data_all{1, i};
+%     if ~isempty(sinr_data) && isvector(sinr_data)
+%         sinr_data_rounded = round(sinr_data, 3);  % SINR 데이터 소수점 3자리 반올림
+%         [cdf_sinr, x_sinr] = ecdf(sinr_data_rounded);
+%         plot(x_sinr, cdf_sinr, 'Color', colors_all{i}, 'LineStyle', lineStyles_all{i}, 'LineWidth', 1.5, ...
+%             'DisplayName', display_names{i});
+%     else
+%         warning('SINR data for strategy %s in DenseUrban is either empty or not valid.', strategies_all{i});
+%     end
+% end
+% hold off;
+% xlabel('DL SINR [dB]', 'FontSize', 17.5);
+% ylabel('Cumulative distribution function', 'FontSize', 17.5);
+% legend_handle = legend('Location', 'northwest');
+% set(legend_handle, 'FontSize', 17.5);  % legend의 글씨 크기 설정
+% xlim([-10 5]);
+% ylim([0 1]);
+% yticks(0:0.1:1);
+% grid on;
+% grid minor;
+% 
+% % 결과를 fig와 png로 저장
+% savefig(fullfile(output_folder, 'results_DLSINR_cdf.fig'));  % fig 저장
+% saveas(gcf, fullfile(output_folder, 'results_DLSINR_cdf.png'));  % png 저장
 
 % %% SINR FIGURE _ AVERAGE SINR FIGURE BAR FIGURE (수정된 부분: 시나리오 개수 체크)
 % % ===== SINR 평균값 비교 Bar Plot =====
@@ -1267,6 +1259,48 @@ saveas(gcf, fullfile(output_folder, 'compare_shortToS_ratio_rural_only_coloredBy
 fprintf('All figures generated successfully.\n');
 
 
+%% [SCI MAIN FIGURE] Average ToS (Rural Only + 색상 적용)
+figure('Position', [100, 100, 1000, 800]);
+
+% 📌 Rural (s = 1)만 Average ToS 계산
+mean_tos_rural = zeros(length(strategies_all), 1);
+for i = 1:length(strategies_all)
+    tos_data = tos_data_all{1, i};  % 1: Rural
+    if ~isempty(tos_data)
+        mean_tos_rural(i) = mean(tos_data); % 평균값 계산
+    end
+end
+
+% 🎨 Set별 색상 정의 (Short ToS와 동일한 로직)
+% (만약 위에서 rural_colors가 이미 정의되어 있다면 이 부분은 주석 처리해도 됨)
+% 📊 막대 그래프
+b = bar(mean_tos_rural, 'FaceColor', 'flat');
+b.CData = rural_colors;
+
+% 🧭 축 설정
+ylabel('Average Time-of-Stay [s]', 'FontSize', 17.5);
+set(gca, 'XTick', 1:length(strategies_all), ...
+         'XTickLabel', display_names, ...
+         'FontSize', 17.5);
+ylim([0, max(mean_tos_rural) * 1.15]); % 여유 공간 확보
+grid on; grid minor;
+
+% ✅ 수치 표기
+xt = get(gca, 'XTick');
+for i = 1:length(strategies_all)
+    value = mean_tos_rural(i);
+    x = xt(i);
+    y = value + 0.1; % ToS 값에 맞춰 위치 조정 (초 단위이므로 작게)
+    text(x, y, sprintf('%.2f', value), ...
+        'HorizontalAlignment', 'center', ...
+        'FontSize', 13);
+end
+
+% 💾 저장
+savefig(fullfile(output_folder, 'compare_avg_ToS_rural_only_coloredBySet.fig'));
+saveas(gcf, fullfile(output_folder, 'compare_avg_ToS_rural_only_coloredBySet.png'));
+
+
 %% [Additional Figure] Efficiency vs Stability Trade-off
 figure('Position', [100, 100, 800, 600]);
 hold on;
@@ -1374,39 +1408,39 @@ end
 saveas(gcf, fullfile(output_folder, 'review_response_UHO_AllSets.png'));
 
 
-% ---------------------------------------------------------
-% FIGURE B: Total RB Usage (전체 비교)
-% ---------------------------------------------------------
-figure('Position', [300, 300, 900, 600]);
-rb_vals = zeros(1, n_comp);
-
-for k = 1:n_comp
-    idx = comp_indices(k);
-    % rb_vals(k) = sum(rbs_data_all{1, idx}); 
-    rb_vals(k) = sum(ho_data_all{1, idx}); 
-end
-
-hold on;
-for k = 1:n_comp
-    if k == n_comp % 제안 기법만 강조색
-        bar(k, rb_vals(k), 'FaceColor', highlight_color);
-    else
-        bar(k, rb_vals(k), 'FaceColor', base_color);
-    end
-end
-
-ylabel('Total Control Signaling Overhead [RBs]', 'FontSize', 15, 'FontWeight', 'bold');
-set(gca, 'XTick', 1:n_comp, 'XTickLabel', comp_names, 'FontSize', 13, 'FontWeight', 'bold');
-grid on;
-title('Signaling Efficiency: RB Usage Comparison (All Sets)', 'FontSize', 16);
-
-% 값 표시
-for k = 1:n_comp
-    text(k, rb_vals(k)*1.02, num2str(round(rb_vals(k))), ...
-        'HorizontalAlignment', 'center', 'FontSize', 12);
-end
-hold off;
-saveas(gcf, fullfile(output_folder, 'review_response_RB_AllSets.png'));
+% % ---------------------------------------------------------
+% % FIGURE B: Total RB Usage (전체 비교)
+% % ---------------------------------------------------------
+% figure('Position', [300, 300, 900, 600]);
+% rb_vals = zeros(1, n_comp);
+% 
+% for k = 1:n_comp
+%     idx = comp_indices(k);
+%     % rb_vals(k) = sum(rbs_data_all{1, idx}); 
+%     rb_vals(k) = sum(ho_data_all{1, idx}); 
+% end
+% 
+% hold on;
+% for k = 1:n_comp
+%     if k == n_comp % 제안 기법만 강조색
+%         bar(k, rb_vals(k), 'FaceColor', highlight_color);
+%     else
+%         bar(k, rb_vals(k), 'FaceColor', base_color);
+%     end
+% end
+% 
+% ylabel('Total Control Signaling Overhead [RBs]', 'FontSize', 15, 'FontWeight', 'bold');
+% set(gca, 'XTick', 1:n_comp, 'XTickLabel', comp_names, 'FontSize', 13, 'FontWeight', 'bold');
+% grid on;
+% title('Signaling Efficiency: RB Usage Comparison (All Sets)', 'FontSize', 16);
+% 
+% % 값 표시
+% for k = 1:n_comp
+%     text(k, rb_vals(k)*1.02, num2str(round(rb_vals(k))), ...
+%         'HorizontalAlignment', 'center', 'FontSize', 12);
+% end
+% hold off;
+% saveas(gcf, fullfile(output_folder, 'review_response_RB_AllSets.png'));
 
 
 % ---------------------------------------------------------
@@ -1472,12 +1506,12 @@ for k = 1:n_comp
     idx = comp_indices(k);
     % [중요] 평균이 아니라 '합계(Sum)'를 사용하여 규모감 강조
     total_ho_counts(k) = sum(ho_data_all{1, idx}); 
-    
+
     % RB 계산: 논문에 언급된 HO * 10 RB 공식을 그대로 적용하여 누적값 계산
     % (만약 rbs_data_all에 이미 계산되어 있다면 그것을 써도 됩니다)
     % 여기서는 명확한 비교를 위해 HO 횟수 기반으로 스케일링합니다.
     total_rb_counts(k) = total_ho_counts(k) * 10; 
-    
+
     avg_sinr_vals(k) = mean(raw_sinr_data_all{1, idx});
 end
 
@@ -1485,64 +1519,64 @@ end
 bar_color_base = [0.7 0.7 0.7]; % 회색
 bar_color_prop = [0.8 0.1 0.1]; % 빨간색
 
-%% [Figure A] Total Network Signaling Overhead (Absolute Scale)
-% 설명: "초당/단말당"으로 나누지 않고 전체 네트워크 부하를 보여줌으로써 압도적 차이 강조
-figure('Position', [100, 100, 900, 650]);
-
-% 왼쪽 축: Total HO Count
-yyaxis left
-b = bar(total_ho_counts, 0.6);
-b.FaceColor = 'flat';
-for k = 1:n_comp
-    if k == n_comp
-        b.CData(k,:) = bar_color_prop; % 제안 기법 강조
-    else
-        b.CData(k,:) = bar_color_base;
-    end
-end
-ylabel('Total Handover Events (Network-wide)', 'FontSize', 16, 'FontWeight', 'bold');
-set(gca, 'YColor', 'k', 'FontSize', 14);
-ylim([0, max(total_ho_counts)*1.15]); % 여유 공간
-
-% 텍스트: 감소율 표시 (Set 4 기준 vs Proposed)
-ref_idx = 4; % Distance-based 기준 (Set 4)
-reduction_rate = (total_ho_counts(ref_idx) - total_ho_counts(end)) / total_ho_counts(ref_idx) * 100;
-
-% 화살표 및 텍스트 추가
-hold on;
-x_start = ref_idx; 
-x_end = n_comp;
-y_high = total_ho_counts(ref_idx) * 1.05;
-plot([x_start, x_end], [y_high, y_high], 'k-', 'LineWidth', 2);
-plot([x_start, x_start], [total_ho_counts(ref_idx), y_high], 'k-', 'LineWidth', 1);
-plot([x_end, x_end], [total_ho_counts(end), y_high], 'k-', 'LineWidth', 1);
-text((x_start+x_end)/2, y_high + 2000, sprintf('\\bf -%.1f%% Signaling Reduction', reduction_rate), ...
-    'HorizontalAlignment', 'center', 'Color', 'r', 'FontSize', 16);
-
-% 오른쪽 축: Total RB Usage (비용 관점)
-yyaxis right
-% RB는 HO 횟수와 비례하므로 굳이 그래프를 또 그리기보다 축만 표시하여 비용 의미 전달
-ylabel('Total Signaling Cost (RBs)', 'FontSize', 16, 'FontWeight', 'bold');
-set(gca, 'YColor', [0.8 0.4 0], 'FontSize', 14);
-ylim([0, (max(total_ho_counts)*1.15) * 10]); % HO 스케일의 10배로 축 설정
-
-set(gca, 'XTick', 1:n_comp, 'XTickLabel', comp_names_short, 'FontSize', 14, 'FontWeight', 'bold');
-grid on;
-title('Total Network Load Analysis: Absolute Impact', 'FontSize', 18);
-
-% 막대 위 수치 표시
-for k = 1:n_comp
-    if k == n_comp
-        txt_color = 'r'; weight = 'bold';
-    else
-        txt_color = 'k'; weight = 'normal';
-    end
-    text(k, total_ho_counts(k), num2str(round(total_ho_counts(k))), ...
-        'HorizontalAlignment', 'center', 'VerticalAlignment', 'bottom', ...
-        'FontSize', 13, 'Color', txt_color, 'FontWeight', weight);
-end
-
-saveas(gcf, fullfile(output_folder, 'results_Total_Load_Absolute.png'));
+% %% [Figure A] Total Network Signaling Overhead (Absolute Scale)
+% % 설명: "초당/단말당"으로 나누지 않고 전체 네트워크 부하를 보여줌으로써 압도적 차이 강조
+% figure('Position', [100, 100, 900, 650]);
+% 
+% % 왼쪽 축: Total HO Count
+% yyaxis left
+% b = bar(total_ho_counts, 0.6);
+% b.FaceColor = 'flat';
+% for k = 1:n_comp
+%     if k == n_comp
+%         b.CData(k,:) = bar_color_prop; % 제안 기법 강조
+%     else
+%         b.CData(k,:) = bar_color_base;
+%     end
+% end
+% ylabel('Total Handover Events (Network-wide)', 'FontSize', 16, 'FontWeight', 'bold');
+% set(gca, 'YColor', 'k', 'FontSize', 14);
+% ylim([0, max(total_ho_counts)*1.15]); % 여유 공간
+% 
+% % 텍스트: 감소율 표시 (Set 4 기준 vs Proposed)
+% ref_idx = 4; % Distance-based 기준 (Set 4)
+% reduction_rate = (total_ho_counts(ref_idx) - total_ho_counts(end)) / total_ho_counts(ref_idx) * 100;
+% 
+% % 화살표 및 텍스트 추가
+% hold on;
+% x_start = ref_idx; 
+% x_end = n_comp;
+% y_high = total_ho_counts(ref_idx) * 1.05;
+% plot([x_start, x_end], [y_high, y_high], 'k-', 'LineWidth', 2);
+% plot([x_start, x_start], [total_ho_counts(ref_idx), y_high], 'k-', 'LineWidth', 1);
+% plot([x_end, x_end], [total_ho_counts(end), y_high], 'k-', 'LineWidth', 1);
+% text((x_start+x_end)/2, y_high + 2000, sprintf('\\bf -%.1f%% Signaling Reduction', reduction_rate), ...
+%     'HorizontalAlignment', 'center', 'Color', 'r', 'FontSize', 16);
+% 
+% % 오른쪽 축: Total RB Usage (비용 관점)
+% yyaxis right
+% % RB는 HO 횟수와 비례하므로 굳이 그래프를 또 그리기보다 축만 표시하여 비용 의미 전달
+% ylabel('Total Signaling Cost (RBs)', 'FontSize', 16, 'FontWeight', 'bold');
+% set(gca, 'YColor', [0.8 0.4 0], 'FontSize', 14);
+% ylim([0, (max(total_ho_counts)*1.15) * 10]); % HO 스케일의 10배로 축 설정
+% 
+% set(gca, 'XTick', 1:n_comp, 'XTickLabel', comp_names_short, 'FontSize', 14, 'FontWeight', 'bold');
+% grid on;
+% title('Total Network Load Analysis: Absolute Impact', 'FontSize', 18);
+% 
+% % 막대 위 수치 표시
+% for k = 1:n_comp
+%     if k == n_comp
+%         txt_color = 'r'; weight = 'bold';
+%     else
+%         txt_color = 'k'; weight = 'normal';
+%     end
+%     text(k, total_ho_counts(k), num2str(round(total_ho_counts(k))), ...
+%         'HorizontalAlignment', 'center', 'VerticalAlignment', 'bottom', ...
+%         'FontSize', 13, 'Color', txt_color, 'FontWeight', weight);
+% end
+% 
+% saveas(gcf, fullfile(output_folder, 'results_Total_Load_Absolute.png'));
 
 
 %% [Figure B] Handover Frequency per Minute (Human-Readable Scale)
@@ -1616,54 +1650,309 @@ saveas(gcf, fullfile(output_folder, 'results_HO_Frequency_PerMin.png'));
 % 
 % saveas(gcf, fullfile(output_folder, 'results_Excess_Cost_Analysis.png'));
 
-%% [Figure C] "Wasted Cost" Analysis (Excess vs Essential) - RB Cost Version
-% 설명: HO 횟수가 아닌 'RB 비용(Signaling Cost)'으로 환산하여 보여줌 (HO * 10)
-% 정규화(시간/단말 나눗셈)를 하지 않아 '전체 네트워크 절감량'을 강조함
+% %% [Figure C] "Wasted Cost" Analysis (Excess vs Essential) - RB Cost Version
+% % 설명: HO 횟수가 아닌 'RB 비용(Signaling Cost)'으로 환산하여 보여줌 (HO * 10)
+% % 정규화(시간/단말 나눗셈)를 하지 않아 '전체 네트워크 절감량'을 강조함
+% 
+% figure('Position', [200, 200, 900, 600]);
+% 
+% % 1. 데이터 변환: HO 횟수 -> RB 비용 (x 10)
+% % 논문 근거: 1 HO = 10 RBs overhead
+% total_rb_cost = total_ho_counts * 10; 
+% 
+% % 2. 기준점 설정 (제안 기법의 RB 소모량)
+% baseline_cost = total_rb_cost(end);
+% excess_cost = total_rb_cost - baseline_cost; % 초과 비용 계산
+% excess_cost(excess_cost < 0) = 0; % 음수 방지
+% 
+% % 3. 스택 바 차트 데이터 구성 [필수 비용(Baseline), 낭비 비용(Excess)]
+% stacked_data = [repmat(baseline_cost, n_comp, 1), excess_cost'];
+% 
+% % 4. 그래프 그리기
+% b3 = bar(stacked_data, 'stacked', 'BarWidth', 0.6);
+% b3(1).FaceColor = [0.2 0.6 0.2]; % 필수 비용 (녹색: Essential Cost)
+% b3(2).FaceColor = [0.8 0.2 0.2]; % 낭비 비용 (적색: Wasted Cost)
+% 
+% % 5. 축 및 라벨 설정
+% ylabel('Total Signaling Overhead [RBs]', 'FontSize', 16, 'FontWeight', 'bold'); % 단위 변경
+% set(gca, 'XTick', 1:n_comp, 'XTickLabel', comp_names_short, 'FontSize', 14);
+% grid on;
+% 
+% % 범례 수정
+% legend({'Essential Cost (Proposed)', 'Wasted Cost (Redundant HO)'}, ...
+%     'Location', 'northeast', 'FontSize', 13);
+% title('Efficiency Analysis: Network-wide Signaling Cost', 'FontSize', 18);
+% 
+% % 6. 낭비 비율 텍스트 표시 (비율은 HO 횟수 기준이나 RB 기준이나 동일함)
+% for k = 1:n_comp-1 % 제안 기법 제외
+%     % 전체 대비 낭비된 비율 계산
+%     waste_pct = (excess_cost(k) / total_rb_cost(k)) * 100;
+% 
+%     % 막대 위에 텍스트 표시 (수치는 RB 단위)
+%     text(k, total_rb_cost(k), sprintf('%.0f%% Wasted\n(%d RBs)', waste_pct, round(excess_cost(k))), ...
+%         'HorizontalAlignment', 'center', 'VerticalAlignment', 'bottom', ...
+%         'FontSize', 11, 'Color', 'r', 'FontWeight', 'bold');
+% end
+% 
+% % 제안 기법 강조 텍스트
+% text(n_comp, baseline_cost, sprintf('Optimum\n(%d RBs)', round(baseline_cost)), ...
+%     'HorizontalAlignment', 'center', 'VerticalAlignment', 'bottom', ...
+%     'FontSize', 12, 'Color', [0.2 0.6 0.2], 'FontWeight', 'bold');
+% 
+% % 저장
+% saveas(gcf, fullfile(output_folder, 'results_Excess_RB_Cost_Analysis.png'));
 
-figure('Position', [200, 200, 900, 600]);
+%% ========================================================================
+% [Final Revised Figure 2] Efficiency Analysis (Normalized RB Cost)
+% 수정 사항:
+% 1. 데이터 변환: 'RBs/UE/min' 단위 유지
+% 2. 텍스트 위치 복원: 막대 위(Above)에 검은색 글씨로 표시
+% ========================================================================
 
-% 1. 데이터 변환: HO 횟수 -> RB 비용 (x 10)
-% 논문 근거: 1 HO = 10 RBs overhead
-total_rb_cost = total_ho_counts * 10; 
+figure('Position', [200, 200, 900, 700]);
 
-% 2. 기준점 설정 (제안 기법의 RB 소모량)
-baseline_cost = total_rb_cost(end);
-excess_cost = total_rb_cost - baseline_cost; % 초과 비용 계산
-excess_cost(excess_cost < 0) = 0; % 음수 방지
+% 1. 데이터 준비 및 정규화
+comp_names_short = {'Set 1', 'Set 2', 'Set 3', 'Set 4', 'Set 5', 'Set 6', 'Set 7'};
+n_comp = length(comp_indices);
 
-% 3. 스택 바 차트 데이터 구성 [필수 비용(Baseline), 낭비 비용(Excess)]
-stacked_data = [repmat(baseline_cost, n_comp, 1), excess_cost'];
+% 정규화 계수 (분당 단말당 RB 수로 변환)
+norm_factor = (1 / (UE_num * TOTAL_TIME)) * 60; 
 
-% 4. 그래프 그리기
-b3 = bar(stacked_data, 'stacked', 'BarWidth', 0.6);
-b3(1).FaceColor = [0.2 0.6 0.2]; % 필수 비용 (녹색: Essential Cost)
-b3(2).FaceColor = [0.8 0.2 0.2]; % 낭비 비용 (적색: Wasted Cost)
+val_essential_norm = zeros(1, n_comp);
+val_wasted_norm = zeros(1, n_comp);
+val_total_norm = zeros(1, n_comp);
 
-% 5. 축 및 라벨 설정
-ylabel('Total Signaling Overhead [RBs]', 'FontSize', 16, 'FontWeight', 'bold'); % 단위 변경
-set(gca, 'XTick', 1:n_comp, 'XTickLabel', comp_names_short, 'FontSize', 14);
-grid on;
-
-% 범례 수정
-legend({'Essential Cost (Proposed)', 'Wasted Cost (Redundant HO)'}, ...
-    'Location', 'northeast', 'FontSize', 13);
-title('Efficiency Analysis: Network-wide Signaling Cost', 'FontSize', 18);
-
-% 6. 낭비 비율 텍스트 표시 (비율은 HO 횟수 기준이나 RB 기준이나 동일함)
-for k = 1:n_comp-1 % 제안 기법 제외
-    % 전체 대비 낭비된 비율 계산
-    waste_pct = (excess_cost(k) / total_rb_cost(k)) * 100;
+for k = 1:n_comp
+    idx = comp_indices(k);
+    curr_ho_count = sum(ho_data_all{1, idx});
+    curr_uho_count = sum(uho_data_all{1, idx});
     
-    % 막대 위에 텍스트 표시 (수치는 RB 단위)
-    text(k, total_rb_cost(k), sprintf('%.0f%% Wasted\n(%d RBs)', waste_pct, round(excess_cost(k))), ...
-        'HorizontalAlignment', 'center', 'VerticalAlignment', 'bottom', ...
-        'FontSize', 11, 'Color', 'r', 'FontWeight', 'bold');
+    val_essential_norm(k) = (curr_ho_count - curr_uho_count) * 10 * norm_factor;
+    val_wasted_norm(k) = curr_uho_count * 10 * norm_factor;
+    val_total_norm(k) = val_essential_norm(k) + val_wasted_norm(k);
 end
 
-% 제안 기법 강조 텍스트
-text(n_comp, baseline_cost, sprintf('Optimum\n(%d RBs)', round(baseline_cost)), ...
-    'HorizontalAlignment', 'center', 'VerticalAlignment', 'bottom', ...
-    'FontSize', 12, 'Color', [0.2 0.6 0.2], 'FontWeight', 'bold');
+% 2. 그래프 그리기
+stacked_data = [val_essential_norm', val_wasted_norm'];
+b3 = bar(stacked_data, 'stacked', 'BarWidth', 0.6);
+b3(1).FaceColor = [0.2 0.6 0.2]; % 녹색: Essential
+b3(2).FaceColor = [0.8 0.2 0.2]; % 적색: Wasted
 
-% 저장
-saveas(gcf, fullfile(output_folder, 'results_Excess_RB_Cost_Analysis.png'));
+% 3. 축 및 라벨 설정
+ylabel('Total Signaling Overhead [RBs/UE/min]', 'FontSize', 16, 'FontWeight', 'bold');
+set(gca, 'XTick', 1:n_comp, 'XTickLabel', comp_names_short, 'FontSize', 15, 'FontWeight', 'bold');
+grid on;
+legend({'Essential Cost (Valid HO)', 'Wasted Cost (UHO)'}, 'Location', 'northeast', 'FontSize', 15); 
+
+% Y축 여유 공간 확보 (텍스트가 잘리지 않도록 1.35배 설정)
+ylim([0, max(val_total_norm) * 1.35]); 
+
+% 4. 텍스트 라벨 추가 (막대 위, 검은색)
+for k = 1:n_comp
+    if val_total_norm(k) > 0
+        waste_pct = (val_wasted_norm(k) / val_total_norm(k)) * 100;
+    else
+        waste_pct = 0;
+    end
+    
+    % 표시할 텍스트 내용
+    label_str = sprintf('%.1f%% wasted\n(%.1f)', waste_pct, val_total_norm(k));
+    if waste_pct == 0
+        label_str = sprintf('0%% wasted\n(%.1f)', val_total_norm(k));
+    end
+
+    % [수정됨] 위치: 막대 높이보다 약간 위 (1.02배)
+    % 색상: 검은색 ('k')
+    text(k, val_total_norm(k) + (max(val_total_norm)*0.02), label_str, ...
+        'HorizontalAlignment', 'center', ...
+        'VerticalAlignment', 'bottom', ...
+        'FontSize', 11, 'Color', 'k', 'FontWeight', 'bold');
+end
+
+saveas(gcf, fullfile(output_folder, 'FINAL_Fig2_RB_Cost_Efficiency_Top.png'));
+
+%% ========================================================================
+% [Final Figure C] Efficiency Analysis (Handover Count Basis) - Text Top
+% 수정 사항:
+% 1. 데이터: RB 가중치 제거 -> 순수 횟수(Count) 기반
+% 2. 단위: [events/UE/min]
+% 3. 텍스트 위치: 막대 위(Above)로 복원, 검은색 글씨
+% ========================================================================
+
+figure('Position', [200, 200, 900, 700]);
+
+% 1. 데이터 준비
+% comp_indices = 1:7; (기존 인덱스 사용)
+comp_names_short = {'Set 1', 'Set 2', 'Set 3', 'Set 4', 'Set 5', 'Set 6', 'Set 7'};
+n_comp = length(comp_indices);
+
+% [핵심] 정규화 계수 (분당 단말당 횟수로 변환)
+norm_factor = (1 / (UE_num * TOTAL_TIME)) * 60;
+
+% 데이터 담을 배열 초기화
+val_essential_norm = zeros(1, n_comp);
+val_wasted_norm = zeros(1, n_comp);
+val_total_norm = zeros(1, n_comp);
+
+for k = 1:n_comp
+    idx = comp_indices(k);
+    
+    % 데이터 추출 (Rural: s=1)
+    curr_ho_count = sum(ho_data_all{1, idx});
+    curr_uho_count = sum(uho_data_all{1, idx});
+    
+    % [수정] RB 곱하기(x10) 제거 -> 순수 횟수에 정규화 적용
+    % Essential: 유효한 핸드오버 (전체 - UHO)
+    val_essential_norm(k) = (curr_ho_count - curr_uho_count) * norm_factor;
+    
+    % Wasted: 불필요한 핸드오버 (UHO)
+    val_wasted_norm(k) = curr_uho_count * norm_factor;
+    
+    % Total
+    val_total_norm(k) = val_essential_norm(k) + val_wasted_norm(k);
+end
+
+% 2. 스택 바 차트 데이터 구성
+stacked_data = [val_essential_norm', val_wasted_norm'];
+
+% 3. 그래프 그리기
+b3 = bar(stacked_data, 'stacked', 'BarWidth', 0.6);
+b3(1).FaceColor = [0.2 0.6 0.2]; % 녹색: Essential (Valid HO)
+b3(2).FaceColor = [0.8 0.2 0.2]; % 적색: Wasted (UHO)
+
+% 4. 축 및 라벨 설정
+ylabel('Average Handover Frequency [HOs/UE/min]', 'FontSize', 16, 'FontWeight', 'bold');
+set(gca, 'XTick', 1:n_comp, 'XTickLabel', comp_names_short, 'FontSize', 15, 'FontWeight', 'bold');
+grid on;
+
+% 범례
+legend({'Essential HO (Valid)', 'Wasted HO (UHO)'}, ...
+    'Location', 'northeast', 'FontSize', 15);
+
+% Y축 범위 넉넉하게 조정 (텍스트 공간 확보)
+ylim([0, max(val_total_norm) * 1.35]);
+
+% 5. 텍스트 라벨 추가 (막대 위, 검은색)
+for k = 1:n_comp
+    % (1) 낭비 비율 계산
+    if val_total_norm(k) > 0
+        waste_pct = (val_wasted_norm(k) / val_total_norm(k)) * 100;
+    else
+        waste_pct = 0;
+    end
+    
+    % (2) 텍스트 표시
+    label_str = sprintf('%.1f%% Wasted\n(%.1f)', waste_pct, val_total_norm(k));
+    
+    if waste_pct == 0
+        label_str = sprintf('0%% Wasted\n(%.1f)', val_total_norm(k));
+    end
+
+    % [수정] 위치: 막대 높이보다 약간 위 (Total Height + Margin)
+    % 색상: 검은색 ('k')
+    text(k, val_total_norm(k) + (max(val_total_norm)*0.02), label_str, ...
+        'HorizontalAlignment', 'center', ...
+        'VerticalAlignment', 'bottom', ... 
+        'FontSize', 11, 'Color', 'k', 'FontWeight', 'bold');
+end
+
+% 결과 저장
+saveas(gcf, fullfile(output_folder, 'FINAL_Fig2_HO_Efficiency_Top.png'));
+
+%% ========================================================================
+% [Final Figure C] Efficiency Analysis (Breakdown: Essential, UHO, HOPP)
+% 수정 사항:
+% 1. Wasted Cost 분해: UHO(Red)와 HOPP(Purple)로 나누어 적층 (Stack)
+% 2. 데이터 무결성: HOPP는 UHO의 부분집합이므로, 'Pure UHO = Total UHO - HOPP'로 계산
+% 3. 시각화: HOPP가 있는 경우(Set 1) 가장 위에 보라색으로 표시하여 눈에 띄게 함
+% ========================================================================
+
+figure('Position', [200, 200, 900, 700]);
+
+% 1. 데이터 준비
+% comp_indices = 1:7; (기존 인덱스 사용)
+comp_names_short = {'Set 1', 'Set 2', 'Set 3', 'Set 4', 'Set 5', 'Set 6', 'Set 7'};
+n_comp = length(comp_indices);
+
+% 정규화 계수 (분당 단말당 횟수)
+norm_factor = (1 / (UE_num * TOTAL_TIME)) * 60;
+
+% 데이터 담을 배열 초기화
+val_essential_norm = zeros(1, n_comp);
+val_uho_pure_norm = zeros(1, n_comp); % HOPP를 제외한 순수 UHO
+val_hopp_norm = zeros(1, n_comp);     % HOPP (Ping-Pong)
+val_total_norm = zeros(1, n_comp);
+val_wasted_total_norm = zeros(1, n_comp); % 텍스트 표기용 (UHO + HOPP)
+
+for k = 1:n_comp
+    idx = comp_indices(k);
+    
+    % 데이터 추출 (Rural: s=1)
+    curr_ho_count = sum(ho_data_all{1, idx});
+    curr_uho_count = sum(uho_data_all{1, idx});
+    curr_hopp_count = sum(hopp_data_all{1, idx}); % HOPP 데이터 추가
+    
+    % [데이터 분해]
+    % 1. Essential (필수): 전체 HO - UHO (UHO 안에 HOPP가 포함되어 있으므로 전체 UHO를 뺌)
+    val_essential_norm(k) = (curr_ho_count - curr_uho_count) * norm_factor;
+    
+    % 2. HOPP (핑퐁): 가장 악성인 낭비
+    val_hopp_norm(k) = curr_hopp_count * norm_factor;
+    
+    % 3. Pure UHO (순수 낭비): 전체 UHO - HOPP (남은 낭비)
+    val_uho_pure_norm(k) = (curr_uho_count - curr_hopp_count) * norm_factor;
+    
+    % Total & Wasted Sum 확인
+    val_total_norm(k) = val_essential_norm(k) + val_uho_pure_norm(k) + val_hopp_norm(k);
+    val_wasted_total_norm(k) = val_uho_pure_norm(k) + val_hopp_norm(k);
+end
+
+% 2. 스택 바 차트 데이터 구성 [Essential, Pure UHO, HOPP]
+stacked_data = [val_essential_norm', val_uho_pure_norm', val_hopp_norm'];
+
+% 3. 그래프 그리기
+b3 = bar(stacked_data, 'stacked', 'BarWidth', 0.6);
+
+% 4. 색상 지정
+b3(1).FaceColor = [0.2 0.6 0.2]; % 녹색: Essential
+b3(2).FaceColor = [0.8 0.2 0.2]; % 적색: Pure UHO (일반 낭비)
+b3(3).FaceColor = [0.5 0.0 0.5]; % 보라색: HOPP (핑퐁 - 악성 낭비)
+
+% 5. 축 및 라벨 설정
+ylabel('Average HOs/UE/min', 'FontSize', 16, 'FontWeight', 'bold');
+set(gca, 'XTick', 1:n_comp, 'XTickLabel', comp_names_short, 'FontSize', 15, 'FontWeight', 'bold');
+grid on;
+
+% 범례 (HOPP 추가)
+legend({'Essential HO (Valid)', 'Wasted HO (UHO)', 'Wasted HO (HOPP)'}, ...
+    'Location', 'northeast', 'FontSize', 13);
+
+% Y축 범위 조정
+ylim([0, max(val_total_norm) * 1.35]);
+
+% 6. 텍스트 라벨 추가 (막대 위)
+for k = 1:n_comp
+    % (1) 낭비 비율 계산 (UHO + HOPP 전체 기준)
+    if val_total_norm(k) > 0
+        waste_pct = (val_wasted_total_norm(k) / val_total_norm(k)) * 100;
+    else
+        waste_pct = 0;
+    end
+    
+    % (2) 텍스트 표시
+    label_str = sprintf('%.1f%% Wasted\n(%.1f)', waste_pct, val_total_norm(k));
+    
+    if waste_pct == 0
+        label_str = sprintf('0%% Wasted\n(%.1f)', val_total_norm(k));
+    end
+
+    % 위치: 막대 높이 위 (Top)
+    text(k, val_total_norm(k) + (max(val_total_norm)*0.02), label_str, ...
+        'HorizontalAlignment', 'center', ...
+        'VerticalAlignment', 'bottom', ... 
+        'FontSize', 11, 'Color', 'k', 'FontWeight', 'bold');
+end
+
+% 결과 저장
+savefig(fullfile(output_folder, 'FINAL_Fig2_HO_Efficiency_HOPP_Stack.fig'));
+saveas(gcf, fullfile(output_folder, 'FINAL_Fig2_HO_Efficiency_HOPP_Stack.png'));
