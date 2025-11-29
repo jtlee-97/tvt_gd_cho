@@ -8,7 +8,7 @@
 % Modified     : 2024.08.27
 % =================================================================
 
-function [histories, episode_results, final_results, master_histories] = system_process(uex, uey, EPISODE, TIMEVECTOR, SITE_MOVE, SAMPLE_TIME, option, Offset, TTT)
+function [histories, episode_results, final_results, master_histories] = system_process2(uex, uey, EPISODE, TIMEVECTOR, SITE_MOVE, SAMPLE_TIME, option, Offset, TTT)
     run('system_parameter.m');
     Hys = 0;
     Thresh1_1 = cellISD - cellRadius;
@@ -66,34 +66,28 @@ function [histories, episode_results, final_results, master_histories] = system_
             current_time = jdx * SAMPLE_TIME; % current time in seconds
             for i = 1:numel(ue_array)
                 switch option
-                    % case {1, 2, 3}
-                        % ue_array(i) = MTD_A3_BHO(ue_array(i), sat, Offset, TTT, current_time); % BHO A3 (SINR)
-                    case {1, 2, 3}
+                    case {1, 2}
                         ue_array(i) = MTD_A3_CHO_rev(ue_array(i), Offset, TTT, current_time); % CHO A3 (SINR)
-                    % case 7 % 기존 상대비교식 거리CHO
-                        % not consider serving cell state, just consider triggering condition satisfy?
-                        % ue_array(i) = MTD_D2_HO(ue_array(i), sat, Offset, current_time); % Distance
-                    case {4, 5} % 수정한 표준기반 거리CHO
+                    % 18301, 20000, 23300, 25000
+                    case {3, 4, 5} % 수정한 표준기반 거리CHO
                         switch option
+                            case 3
+                                ue_array(i) = MTD_D2_HO_3gpp(ue_array(i), sat, Hys, (cellRadius*0.8), (cellRadius), current_time); % Distance
                             case 4
-                                % Wide, low Threshold1
-                                ue_array(i) = MTD_D2_HO_3gpp(ue_array(i), sat, Hys, (cellISD - cellRadius), cellRadius, current_time); % Distance
+                                ue_array(i) = MTD_D2_HO_3gpp(ue_array(i), sat, Hys, (cellRadius*0.93), (cellRadius), current_time);
                             case 5
-                                % Wide, high Threshold2
-                                ue_array(i) = MTD_D2_HO_3gpp(ue_array(i), sat, Hys, cellRadius, cellRadius, current_time); % Distance
+                                ue_array(i) = MTD_D2_HO_3gpp(ue_array(i), sat, Hys, cellRadius, (cellRadius), current_time); 
                         end
-                    case {6, 7}
+                    case {6, 7, 8} % 수정한 표준기반 거리CHO
                         switch option
                             case 6
-                            % proposed method
-                            ue_array(i) = MTD_DD2_HO_OID(ue_array(i), sat, Hys, (cellISD - cellRadius), cellRadius, current_time); % Distance DD2
+                                ue_array(i) = MTD_DD2_HO_OID(ue_array(i), sat, Hys, (cellRadius*0.8), (cellRadius), current_time); % Distance
                             case 7
-                            % proposed method
-                            ue_array(i) = MTD_DD2_HO_OID(ue_array(i), sat, Hys, cellRadius, cellRadius, current_time); % Distance DD2
-                        end
-                    % case 7
-                    %     % proposed method
-                    %     ue_array(i) = MTD_DD2_HO_OID(ue_array(i), sat, Hys, (cellISD - cellRadius), cellRadius, current_time); % Distance DD2
+                                ue_array(i) = MTD_DD2_HO_OID(ue_array(i), sat, Hys, (cellRadius*0.93), (cellRadius), current_time);
+                            case 8
+                                ue_array(i) = MTD_DD2_HO_OID(ue_array(i), sat, Hys, cellRadius, cellRadius, current_time);
+                        end   
+                    
                 end
                 ue_array(i) = ue_array(i).check_RLF(sat, current_time, T310); % T310을 1로 설정
             end

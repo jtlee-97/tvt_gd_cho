@@ -25,10 +25,11 @@ function ue = MTD_DD2_HO_OID(ue, sat, Hys, Thresh1, Thresh2, current_time)
     % Handover decision algorithm
     if ~handover.preparation_state && ~handover.execution_state
         if cond1_enter && any(cond2_enter)
-            ue.RBs = ue.RBs + 1; % MR에 대한 RB 추가
+            % ue.RBs = ue.RBs + 1; % MR에 대한 RB 추가
             % 조건이 처음으로 만족되면 TTT 체크 변수 생성
             if handover.TTT_check == 0
                 ue.handover.TTT_check = current_time; % 수정: ue.handover로 접근
+                ue.RBs = ue.RBs + 1; % MR에 대한 RB 추가
             end
             
             % Calculate distance and find valid indices within 44000 meters

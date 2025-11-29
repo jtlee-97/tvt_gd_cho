@@ -3,7 +3,7 @@ close all;
 
 %% =======================================
 % 설정 확인 필수
-UE_num = 5000;
+UE_num = 100;
 START_TIME = 0;
 SAMPLE_TIME = 0.2; % 200ms 간격
 TOTAL_TIME = 173.21 / 7.56; % 동적으로 계산된 총 시뮬레이션 시간
@@ -1362,8 +1362,8 @@ saveas(gcf, fullfile(output_folder, 'trade_off_plot.png'));
 % ========================================================================
 
 % 1. 비교 대상 설정 (Set 1 ~ Set 7 전체)
-comp_indices = 1:7; 
-comp_names = {'Set 1', 'Set 2', 'Set 3', 'Set 4', 'Set 5', 'Set 6', 'Proposed (Set 7)'};
+% comp_indices = 1:7; 
+% comp_names = {'Set 1', 'Set 2', 'Set 3', 'Set 4', 'Set 5', 'Set 6', 'Proposed (Set 7)'};
 n_comp = length(comp_indices);
 
 % 색상 설정 (Set 1~6: 회색조/파란조, Set 7: 붉은색 강조)
@@ -1496,8 +1496,8 @@ saveas(gcf, fullfile(output_folder, 'review_response_Tradeoff_AllSets.png'));
 % ========================================================================
 
 % 비교 대상 인덱스 및 이름 설정
-comp_indices = 1:7; 
-comp_names_short = {'Set 1', 'Set 2', 'Set 3', 'Set 4', 'Set 5', 'Set 6', 'Proposed'};
+comp_indices = 1:8; 
+comp_names_short = {'Set 1', 'Set 2', 'Set 3', 'Set 4', 'Set 5', 'Set 6', 'Set 7', 'Set 8'};
 n_comp = length(comp_indices);
 
 % 데이터 추출 (Rural 시나리오 기준: s=1)
@@ -1715,7 +1715,7 @@ saveas(gcf, fullfile(output_folder, 'results_HO_Frequency_PerMin.png'));
 figure('Position', [200, 200, 900, 700]);
 
 % 1. 데이터 준비 및 정규화
-comp_names_short = {'Set 1', 'Set 2', 'Set 3', 'Set 4', 'Set 5', 'Set 6', 'Set 7'};
+% comp_names_short = {'Set 1', 'Set 2', 'Set 3', 'Set 4', 'Set 5', 'Set 6', 'Set 7'};
 n_comp = length(comp_indices);
 
 % 정규화 계수 (분당 단말당 RB 수로 변환)
@@ -1786,7 +1786,7 @@ figure('Position', [200, 200, 900, 700]);
 
 % 1. 데이터 준비
 % comp_indices = 1:7; (기존 인덱스 사용)
-comp_names_short = {'Set 1', 'Set 2', 'Set 3', 'Set 4', 'Set 5', 'Set 6', 'Set 7'};
+% comp_names_short = {'Set 1', 'Set 2', 'Set 3', 'Set 4', 'Set 5', 'Set 6', 'Set 7'};
 n_comp = length(comp_indices);
 
 % [핵심] 정규화 계수 (분당 단말당 횟수로 변환)
@@ -1874,7 +1874,7 @@ figure('Position', [200, 200, 900, 700]);
 
 % 1. 데이터 준비
 % comp_indices = 1:7; (기존 인덱스 사용)
-comp_names_short = {'Set 1', 'Set 2', 'Set 3', 'Set 4', 'Set 5', 'Set 6', 'Set 7'};
+% comp_names_short = {'Set 1', 'Set 2', 'Set 3', 'Set 4', 'Set 5', 'Set 6', 'Set 7'};
 n_comp = length(comp_indices);
 
 % 정규화 계수 (분당 단말당 횟수)

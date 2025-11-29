@@ -28,13 +28,14 @@ end
 
 % Initialize strategies and corresponding parameters
 strategies = {
-    'Strategy A', 0, 0;
-    'Strategy B', 1, 0.1;
-    'Strategy C', 2, 0.2;
-    'Strategy D', [], [];
-    'Strategy E', [], [];
-    'Strategy F', [], [];
-    'Strategy G', [], [];
+    'Strategy 1', 0, 0;
+    'Strategy 2', 2, 0.1;
+    'Strategy 3', [], [];
+    'Strategy 4', [], [];
+    'Strategy 5', [], [];
+    'Strategy 6', [], [];
+    'Strategy 7', [], [];
+    'Strategy 8', [], [];
 };
 
 for option = 1:size(strategies, 1)
@@ -64,7 +65,7 @@ for option = 1:size(strategies, 1)
         fprintf('Processing %s, UE position %d of %d\n', strategy_name, ue_idx, length(UE_x));
 
         % Run the system process for the current UE position and strategy
-        [histories, episode_results, final_results, master_histories] = system_process(uex, uey, EPISODE, TIMEVECTOR, SITE_MOVE, SAMPLE_TIME, option, current_Offset_A3, current_TTT);
+        [histories, episode_results, final_results, master_histories] = system_process2(uex, uey, EPISODE, TIMEVECTOR, SITE_MOVE, SAMPLE_TIME, option, current_Offset_A3, current_TTT);
         master_histories_list{option} = [master_histories_list{option}; master_histories];
 
         % Loop through each episode to calculate and store results
@@ -107,7 +108,7 @@ for option = 1:size(strategies, 1)
     end
 
     % Save MASTER structure arrays for the current strategy
-    folderName = 'MasterResults';
+    folderName = 'MasterResults2';
     if ~exist(folderName, 'dir')
         mkdir(folderName);
     end

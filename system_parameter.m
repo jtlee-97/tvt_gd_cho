@@ -19,7 +19,7 @@ point1 = cellISD-cellRadius;
 point2 = cellRadius-point1;
 point3 = cellRadius-point2;
 
-UE_x = randi([cellISD-cellRadius-0.2702, cellRadius], 1, 2000); % 랜덤 UE 위치 생성
+UE_x = randi([0, cellRadius], 1, 2000); % 랜덤 UE 위치 생성
 % UE_x = 17340; % RSRP용 centre, mid, edge 위치별 (10000km, 17340m, 23120m)
 UE_y = 80090.0293; % 86602.5404, 80090.0293
 
